@@ -9,6 +9,7 @@ interface BioCardProps {
 export const BioCard: React.FC<BioCardProps> = ({ bio, index }) => {
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -30,14 +31,29 @@ export const BioCard: React.FC<BioCardProps> = ({ bio, index }) => {
     setTimeout(() => setShared(false), 3000);
   };
 
+  const handleFavorite = () => {
+    setIsFavorited(!isFavorited);
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg transition-shadow duration-200">
       <div className="mb-4">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center justify-between mb-3">
           <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
             Bio #{index + 1}
           </span>
-          <Heart className="w-4 h-4 text-gray-300" />
+          <button
+            onClick={handleFavorite}
+            className="transition-all duration-200 hover:scale-110"
+          >
+            <Heart 
+              className={`w-5 h-5 transition-colors duration-200 ${
+                isFavorited 
+                  ? 'text-red-500 fill-red-500' 
+                  : 'text-gray-300 hover:text-red-400'
+              }`}
+            />
+          </button>
         </div>
         <p className="text-gray-800 text-lg leading-relaxed font-medium">
           "{bio}"
